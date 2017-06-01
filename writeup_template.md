@@ -19,7 +19,7 @@ The goals / steps of this project are the following:
 
 [image1]: ./media/Calibration_Image.png "Original vs Undistorted"
 [image2]: ./media/Corrected_RGB_Image.png "Road Transformed"
-[image3]: ./examples/binary_combo_example.jpg "Binary Example"
+[image3]: ./media/HLS_Sat_Mag_Sobel_Binary.png "Binary Examples"
 [image4]: ./examples/warped_straight_lines.jpg "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
 [image6]: ./examples/example_output.jpg "Output"
@@ -42,6 +42,7 @@ Here I'll explain in detail how the project was completed and my thought process
 
 The code used to compute the camera matrix and distortion coefficients is contained in the file 'create_cal_pickle.py'
 When the script is run the directory containing the calibration images is passed as an argument. The script will create a numpy array containing all of the internal corner point coordinates in a 6x9 chessboard image (objp). As it steps through each image in the directory it will run the 'cv2.findChessboardCorners' function. If the corners are found both 'objp' and the 'corners' list are appended to the master lists of 'objpoints' and 'imgpoints' respectively. Once the image list has been exhausted the 'objpoints' and 'imgpoints' are passed to the 'cv2.calibrateCamera' function to generate the camera matrix and the distortion coefficients. These are then added to a pickle file and saved in the working directory to be loaded later. 
+
 ![alt text][image1]
 
 ### Pipeline (single images)
@@ -53,7 +54,7 @@ The main working file is 'video_pipeline_oop.py'. This is where they main pipeli
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+In the 'Frame' class there multiple methods to create binaries. From lines 29-69 binaries of the following types are created: grayscale threshold, HSL saturation threshold, red channel threshold, magnitude of image gradient and angle of image gradient. Each is generated in it's own method. Once all of the binaries are generated, they are combined into one with yet other threshold to determine which pixels to keep. Minimum of 2 pixels was found to work well. 
 
 ![alt text][image3]
 
