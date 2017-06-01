@@ -1,5 +1,6 @@
 ## CarND-AdvancedLaneLines-P4
 
+![alt text][image0]
 ---
 
 **Advanced Lane Finding Project**
@@ -17,6 +18,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
+[image0]: ./media/output_project_video.gif "Output gif"
 [image1]: ./media/Calibration_Image.png "Original vs Undistorted"
 [image2]: ./media/Corrected_RGB_Image.png "Road Transformed"
 [image3]: ./media/HLS_Sat_Mag_Sobel_Binary.png "Binary Examples"
