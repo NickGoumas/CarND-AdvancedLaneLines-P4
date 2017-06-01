@@ -30,6 +30,7 @@ The goals / steps of this project are the following:
 [image3]: ./media/HLS_Sat_Mag_Sobel_Binary.png "Binary Examples"
 [image4]: ./media/Final_Binary_Warped_Binary.png "Warp Example"
 [image5]: ./media/Overlay_Before_After.png "Output"
+[image6]: ./media/Highlight_Line_Search_Binary.png "Line Search"
 [video1]: ./project_video.mp4 "Video"
 
 
@@ -84,6 +85,9 @@ At line 233 is the 'generate_points' method. This method takes the size of the b
 
 At line 253 is the 'generate_polyline' method. It simplely kicks off the previous two methods, then tries to generate a second order polynomial using the master points lists. If there are not enough points it returns 'None' so an overlay isn't attempted.
 
+An image showing this process is below.
+
+![alt text][image6] 
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
