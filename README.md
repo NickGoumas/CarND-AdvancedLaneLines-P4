@@ -105,6 +105,7 @@ def calculate_curve(self):
 		curve = (1.0+((2.0*A*y+B)**2.0)**3.0/2.0)/abs(2.0*A)
 		return round(curve, 0)
 ```
+As for finding the vehicle center, in each frame the polynomials are solved for their points along the bottom row of pixels. Once these two points are found, the average is taken and this roughly gives the number of pixels the camera is off of the lane center. This is multiplied by the xm_per_pix constant seen in the code above and converted to meters.
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
