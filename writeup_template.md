@@ -18,14 +18,13 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./media/Calibration_Image.png "Original vs Undistorted"
-[image2]: ./test_images/test1.jpg "Road Transformed"
+[image2]: ./media/Corrected_RGB_Image.png "Road Transformed"
 [image3]: ./examples/binary_combo_example.jpg "Binary Example"
 [image4]: ./examples/warped_straight_lines.jpg "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
 [image6]: ./examples/example_output.jpg "Output"
 [video1]: ./project_video.mp4 "Video"
 
-## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
@@ -43,14 +42,13 @@ Here I'll explain in detail how the project was completed and my thought process
 
 The code used to compute the camera matrix and distortion coefficients is contained in the file 'create_cal_pickle.py'
 When the script is run the directory containing the calibration images is passed as an argument. The script will create a numpy array containing all of the internal corner point coordinates in a 6x9 chessboard image (objp). As it steps through each image in the directory it will run the 'cv2.findChessboardCorners' function. If the corners are found both 'objp' and the 'corners' list are appended to the master lists of 'objpoints' and 'imgpoints' respectively. Once the image list has been exhausted the 'objpoints' and 'imgpoints' are passed to the 'cv2.calibrateCamera' function to generate the camera matrix and the distortion coefficients. These are then added to a pickle file and saved in the working directory to be loaded later. 
-
 ![alt text][image1]
 
 ### Pipeline (single images)
 
 #### 1. Provide an example of a distortion-corrected image.
 
-To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
+The main working file is 'video_pipeline_oop.py'. This is where they main pipeline of the project lives. Before running the pipeline it first opens the pickle file referenced above and loads the camera matrix and distortion coefficients. It then creates a 'Frame' object and initializes them as attributes. The first method on line 19 generates an undistorted image frame from the input frame using the camera matrix and distortion coefficients. It does this with the 'cv2.undistort' function. Below is an example.
 ![alt text][image2]
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
