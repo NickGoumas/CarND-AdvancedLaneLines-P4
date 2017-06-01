@@ -16,6 +16,12 @@ The goals / steps of this project are the following:
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
+### Files created for this project:
+1) video_pipeline_oop.py - The main video processing pipeline filee.
+2) create_cal_pickle.py  - Camera matrix and distortion efficients generation file.
+3) color_grad_plots.py   - Generate a grid of plots during the pipeline to inspect which threshold values work best.
+
+
 [//]: # (Image References)
 
 [image0]: ./media/output_project_video.gif "Output gif"
@@ -26,10 +32,6 @@ The goals / steps of this project are the following:
 [image5]: ./media/Overlay_Before_After.png "Output"
 [video1]: ./project_video.mp4 "Video"
 
-
-### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
-
----
 
 ### Writeup / README
 
@@ -114,9 +116,8 @@ The final result is done by calling the 'update_frame' method on the object. Her
 
 ### Pipeline (video)
 
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
-
-Here's a [link to my video result](./project_video.mp4)
+#### 1. Provide a link to your final video output.
+ [Link to my video result](./media/output_project_video.mp4)
 
 ---
 
@@ -124,4 +125,4 @@ Here's a [link to my video result](./project_video.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+My pipeline will likely fail on hard corners. Since I focused on the main project video with it's easy turning my pipeline cannot hand the harder challenge video at all. To make a system like this more robust the speed and steering angle could be used to dynamically change the masking area and the search windows used to find the line pixels in the binary images. 
