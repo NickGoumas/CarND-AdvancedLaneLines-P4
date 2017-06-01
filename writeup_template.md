@@ -21,7 +21,7 @@ The goals / steps of this project are the following:
 [image2]: ./media/Corrected_RGB_Image.png "Road Transformed"
 [image3]: ./media/HLS_Sat_Mag_Sobel_Binary.png "Binary Examples"
 [image4]: ./media/Final_Binary_Warped_Binary.png "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
+[image5]: ./media/Overlay_Before_After.png "Fit Visual"
 [image6]: ./examples/example_output.jpg "Output"
 [video1]: ./project_video.mp4 "Video"
 
@@ -63,19 +63,23 @@ In the 'Frame' class there multiple methods to create binaries. From lines 29-69
 In the 'Frame' class there is a method called 'warp_binary(self)' which is used to warp the final binary up to a "top down view." This is located in the 'video_pipeline_oop.py' file at line 108. In the method, the final binary is passed through a masking function to strip out any pixels way from the lane area. 'cv2.getPerspectiveTransform' is then used with the source and destination points (src, dst) to generate the transformation matrix (M). M is then used with the 'cv2.warpPerspective' function to transform the binary to a "top down view."
 
 
-I chose the hardcode the source and destination points in the following manner:
+The source and destination points were hardcoded in the following manner:
 ```python
 src = np.float32([[520, 500],[760, 500],[250, 677],[1030, 677]])
 dst = np.float32([[300,400],[980,400],[300,720],[980,720]])
 ```
 
-I verified that my perspective transform was working as expected by plotting lines using the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
+The perspective transform was verified to be working as expected by plotting lines using the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
 ![alt text][image4]
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+In the 'Line' class there are three methods used to find lane-line pixels, convert them to points and generate a polynomial. Starting at line 190 there is a 'Line' method called 'histogram_slice' which given it's inputs, slices a binary image up into horizontal sections and searches for a line from the bottom up. If a concentration of pixels are found in a known good window, a corresponding XY point is placed into the master points lists. 
+
+At line 233 is the 'generate_points' method. This method takes the size of the binary image and creates the search window heights and widths to feed to the histogram method. It recieves the output from 'histogram_slice' and if the points are good it makes the final call to append them to the master points lists. Once the master lists are over an initialized limit it will start deleting the first added elements. This gives the line a smoothing effect.
+
+At line 253 is the 'generate_polyline' method. It simplely kicks off the previous two methods, then tries to generate a second order polynomial using the master points lists. If there are not enough points it returns 'None' so an overlay isn't attempted.
 
 ![alt text][image5]
 
