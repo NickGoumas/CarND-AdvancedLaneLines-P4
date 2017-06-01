@@ -21,8 +21,7 @@ The goals / steps of this project are the following:
 [image2]: ./media/Corrected_RGB_Image.png "Road Transformed"
 [image3]: ./media/HLS_Sat_Mag_Sobel_Binary.png "Binary Examples"
 [image4]: ./media/Final_Binary_Warped_Binary.png "Warp Example"
-[image5]: ./media/Overlay_Before_After.png "Fit Visual"
-[image6]: ./examples/example_output.jpg "Output"
+[image5]: ./media/Overlay_Before_After.png "Output"
 [video1]: ./project_video.mp4 "Video"
 
 
@@ -81,17 +80,33 @@ At line 233 is the 'generate_points' method. This method takes the size of the b
 
 At line 253 is the 'generate_polyline' method. It simplely kicks off the previous two methods, then tries to generate a second order polynomial using the master points lists. If there are not enough points it returns 'None' so an overlay isn't attempted.
 
-![alt text][image5]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+At line 265 the 'Line' class method 'calculate_curve' starts. This was approached very simliar to the course materials. Here is the function in full with comments to explain the process.
+```python
+def calculate_curve(self):
+		# Rough conversions given in the project to map
+		# pixels to meters in the X and Y directions.
+		ym_per_pix = 30.0/720.0
+		xm_per_pix = 3.7/700.0
+		xpoints = np.array(self.Xlist)*xm_per_pix
+		ypoints = np.array(self.Ylist)*ym_per_pix
+		# Generate polynomial coefficient container
+		poly_function = np.poly1d(np.polyfit((ypoints),(xpoints), 2))
+		# Set coefficients.
+		A, B, C = poly_function.c
+		y = 720 # Most interested in curve at the bottom of the image.
+		# Equation for the curve radius from poly coe. 
+		curve = (1.0+((2.0*A*y+B)**2.0)**3.0/2.0)/abs(2.0*A)
+		return round(curve, 0)
+```
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+The final result is done by calling the 'update_frame' method on the object. Here is an example.
 
-![alt text][image6]
+![alt text][image5]
 
 ---
 
