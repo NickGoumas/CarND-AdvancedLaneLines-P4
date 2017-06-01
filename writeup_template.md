@@ -20,7 +20,7 @@ The goals / steps of this project are the following:
 [image1]: ./media/Calibration_Image.png "Original vs Undistorted"
 [image2]: ./media/Corrected_RGB_Image.png "Road Transformed"
 [image3]: ./media/HLS_Sat_Mag_Sobel_Binary.png "Binary Examples"
-[image4]: ./examples/warped_straight_lines.jpg "Warp Example"
+[image4]: ./media/Final_Binary_Warped_Binary.png "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
 [image6]: ./examples/example_output.jpg "Output"
 [video1]: ./project_video.mp4 "Video"
@@ -60,31 +60,16 @@ In the 'Frame' class there multiple methods to create binaries. From lines 29-69
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
+In the 'Frame' class there is a method called 'warp_binary(self)' which is used to warp the final binary up to a "top down view." This is located in the 'video_pipeline_oop.py' file at line 108. In the method, the final binary is passed through a masking function to strip out any pixels way from the lane area. 'cv2.getPerspectiveTransform' is then used with the source and destination points (src, dst) to generate the transformation matrix (M). M is then used with the 'cv2.warpPerspective' function to transform the binary to a "top down view."
 
+
+I chose the hardcode the source and destination points in the following manner:
 ```python
-src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
-dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
+src = np.float32([[520, 500],[760, 500],[250, 677],[1030, 677]])
+dst = np.float32([[300,400],[980,400],[300,720],[980,720]])
 ```
 
-This resulted in the following source and destination points:
-
-| Source        | Destination   | 
-|:-------------:|:-------------:| 
-| 585, 460      | 320, 0        | 
-| 203, 720      | 320, 720      |
-| 1127, 720     | 960, 720      |
-| 695, 460      | 960, 0        |
-
-I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
+I verified that my perspective transform was working as expected by plotting lines using the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
 ![alt text][image4]
 
